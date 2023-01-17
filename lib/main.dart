@@ -14,9 +14,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of the application.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(
+          title: 'Bee Messenger',
+      ),
     );
   }
 }
@@ -31,41 +33,53 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 20),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(50))
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: true,
       ),
+      
       body: Center(
 
         child: Column(
-
+          
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Welcome!',
+              style: TextStyle(
+                fontSize: 30
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+
+            const SizedBox(
+              height: 20,
             ),
+
+            ElevatedButton(
+              style: style,
+              onPressed: () {},
+              child: const Padding(
+                padding: EdgeInsets.all(15),
+                child: Text('Agree and Continue'),
+              )
+            ),
+
           ],
+          
         ),
+        
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      
     );
   }
 }
