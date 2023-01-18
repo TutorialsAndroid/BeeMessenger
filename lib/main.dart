@@ -1,7 +1,17 @@
+import 'package:bee/firebase_options.dart';
+import 'package:bee/screen/phone_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
+  firebaseInitialize();
+}
+
+Future<void> firebaseInitialize() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,33 +21,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Bee',
       theme: ThemeData(
         // This is the theme of the application.
         primarySwatch: Colors.yellow,
       ),
-      home: const MyHomePage(
+      home: const LoginPage(
           title: 'Bee Messenger',
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
 
-  final ButtonStyle style = ElevatedButton.styleFrom(
+  final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(50))
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50)
+      )
   );
 
   @override
@@ -66,8 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             ElevatedButton(
-              style: style,
-              onPressed: () {},
+              style: loginButtonStyle,
+              onPressed: () {
+                Navigator.pop(context); //Close this window
+                //Open new window by calling Navigator.push()
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PhoneSignIn()),
+                );
+              },
               child: const Padding(
                 padding: EdgeInsets.all(15),
                 child: Text('Agree and Continue'),
@@ -81,5 +99,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       
     );
-  }
+  } // End of widget
 }
