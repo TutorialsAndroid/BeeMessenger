@@ -22,10 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bee',
-      theme: ThemeData(
-        // This is the theme of the application.
-        primarySwatch: Colors.yellow,
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: const LoginPage(
           title: 'Bee Messenger',
       ),
@@ -45,7 +43,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20),
+      backgroundColor: Colors.yellow,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50)
       )
@@ -55,10 +53,16 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            color: Colors.black
+          ),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.yellow,
       ),
-      
+
       body: Center(
 
         child: Column(
@@ -88,7 +92,10 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Padding(
                 padding: EdgeInsets.all(15),
-                child: Text('Agree and Continue'),
+                child: Text(
+                    'Agree and Continue',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
               )
             ),
 

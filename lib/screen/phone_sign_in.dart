@@ -12,7 +12,7 @@ class PhoneSignIn extends StatefulWidget {
 class _PhoneSignInState extends State<PhoneSignIn> {
 
   final ButtonStyle selectCountryButtonStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20),
+      backgroundColor: Colors.yellow,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50)
       )
@@ -20,6 +20,8 @@ class _PhoneSignInState extends State<PhoneSignIn> {
 
   String countryButtonText = "Select your country";
   bool phoneNumberInputFieldVisibility = false;
+  Color countryPickerDialogBgColor = Colors.white;
+  Color phoneNumberInputFieldHintTextColor = Colors.white;
 
   void _updateSelectCountryButtonText(String selectedCountry) {
     setState(() {
@@ -33,8 +35,25 @@ class _PhoneSignInState extends State<PhoneSignIn> {
     });
   }
 
+  void _setUiComponentsColors() {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      // The app is in dark mode
+      setState(() {
+        countryPickerDialogBgColor = Colors.black;
+        phoneNumberInputFieldHintTextColor = Colors.white;
+      });
+    } else {
+      // The app is in light mode
+      setState(() {
+        countryPickerDialogBgColor = Colors.white;
+        phoneNumberInputFieldHintTextColor = Colors.black;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _setUiComponentsColors();
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -45,18 +64,18 @@ class _PhoneSignInState extends State<PhoneSignIn> {
                   onPressed: () {
                     showCountryPicker(
                       context: context,
-                      countryListTheme: const CountryListThemeData(
+                      countryListTheme: CountryListThemeData(
                         flagSize: 25,
-                        backgroundColor: Colors.white,
-                        textStyle: TextStyle(fontSize: 16, color: Colors.blueGrey),
+                        backgroundColor: countryPickerDialogBgColor,
+                        textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
                         bottomSheetHeight: 500, // Optional. Country list modal height
-                        //Optional. Sets the border radius for the bottomsheet.
-                        borderRadius: BorderRadius.only(
+                        //Optional. Sets the border radius for the bottom-sheet.
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20.0),
                           topRight: Radius.circular(20.0),
                         ),
                         //Optional. Styles the search field.
-                        inputDecoration: InputDecoration(
+                        inputDecoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderSide: BorderSide(color: Colors.blueGrey, width: 1.0)
@@ -67,7 +86,7 @@ class _PhoneSignInState extends State<PhoneSignIn> {
                           ),
                           labelText: 'Search',
                           hintText: 'Start typing to search',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelStyle: TextStyle(color: Colors.blueGrey),
                           prefixIcon: Icon(Icons.search),
                         ),
                       ),
@@ -81,7 +100,13 @@ class _PhoneSignInState extends State<PhoneSignIn> {
                   style: selectCountryButtonStyle,
                   child: Padding(
                     padding: const EdgeInsets.all(15),
-                    child: Text(countryButtonText),
+                    child: Text(
+                        countryButtonText,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.black
+                        ),
+                    ),
                   ),
               ),
             ),
@@ -92,24 +117,24 @@ class _PhoneSignInState extends State<PhoneSignIn> {
                 visible: phoneNumberInputFieldVisibility,
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: TextField(
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                   // width: 0.0 produces a thin "hairline" border
                                     borderSide: BorderSide(color: Colors.blueGrey, width: 1.0)
                                 ),
-                                focusedBorder: OutlineInputBorder(
+                                focusedBorder: const OutlineInputBorder(
                                   // width: 0.0 produces a thin "hairline" border
                                     borderSide:  BorderSide(color: Colors.blueGrey, width: 1.0 )
                                 ),
-                                border: OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
                                 hintText: 'Enter your phone number',
                                 hintStyle: TextStyle(
-                                    color: Colors.black
+                                    color: phoneNumberInputFieldHintTextColor
                                 )
                             ),
                           ),
@@ -117,8 +142,10 @@ class _PhoneSignInState extends State<PhoneSignIn> {
                     ),
 
                     FloatingActionButton(
+                      backgroundColor: Colors.yellow,
                         child: const Icon(
-                            Icons.navigate_next_outlined
+                            Icons.navigate_next_outlined,
+                          color: Colors.black,
                         ),
                         onPressed: (){
                           //TODO create next screen for otp verification
